@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jasa Tugas Online</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    header {
+      background: linear-gradient(90deg, #6610f2, #6f42c1);
+      color: white;
+    }
+    .navbar-brand i {
+      margin-right: 8px;
+    }
+    .section-title {
+      margin-top: 60px;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+    .form-control, .btn {
+      border-radius: 0.5rem;
+    }
+    footer {
+      background-color: #343a40;
+      color: #fff;
+      padding: 1rem 0;
+      text-align: center;
+      margin-top: 60px;
+    }
+    .carousel-item img {
+      height: 300px;
+      object-fit: cover;
+    }
+    .card {
+      border-radius: 1rem;
+    }
+     /* Dark mode */
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    body.dark-mode header {
+      background: linear-gradient(90deg, #343a40, #212529);
+    }
+    body.dark-mode .navbar {
+      background-color: #212529 !important;
+    }
+    body.dark-mode .card,
+    body.dark-mode .carousel,
+    body.dark-mode .form-control,
+    body.dark-mode .form-select,
+    body.dark-mode .container,
+    body.dark-mode .lokasi,
+    body.dark-mode footer {
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+    }
+    #scrollTopBtn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 48px;
+  height: 48px;
+  display: none;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+
+#scrollTopBtn.show {
+  display: flex;
+  opacity: 1;
+}
+
+#scrollTopBtn:hover {
+  opacity: 0.85;
+}
+.music-button {
+  background: linear-gradient(to right, #6366f1, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 40px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.music-button:hover {
+  transform: scale(1.05);
+}
+
+.music-button svg {
+  width: 16px;
+  height: 16px;
+  fill: white;
+  transition: transform 0.3s ease;
+}
+
+.rotate {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+  </style>
+</head>
+<body>
+<!-- Musik Otomatis -->
+<audio id="musik" src="musik/tiada-kata-lelah.mp3.mp3" loop></audio>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+  <img src="img/G2.png" alt="Logo" height="70" class="me-2">
+  Jasa Tugas
+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#cara-order">Cara Order</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
+        <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#daftar-tugas">Tugas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#daftar-harga">Harga</a></li>
+        <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
+        <li class="nav-item"><a class="nav-link" href="#form-pemesanan">Pesan</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kontak">Contact</a></li>
+        <button id="tombolMusik" class="music-button">
+  <svg id="ikonMusik" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 17H7a4 4 0 0 1 0-8h2v8zm8 0h-2V7h2a4 4 0 0 1 0 10z"/></svg>
+  Musik ON
+</button>
+      </ul>
+    </div>
+    <button id="toggleDark" class="btn btn-light" style="font-size: 14px; padding: 4px 8px; min-width: 90px;">
+  Dark Mode
+</button>
+  </div>
+</nav>
+
+<!-- Header Carousel -->
+<header id="home" class="text-center py-5 bg-light">
+  <div class="container">
+    <div id="carouselHeader" class="carousel slide mb-4" data-bs-ride="carousel">
+      <div class="carousel-inner rounded shadow overflow-hidden">
+<div>
+ <h1>Selamat Datang di Jasa Tugas Online</h1>
+    <p class="lead">Kami bantu tugas kamu dengan cepat dan profesional</p>
+    </div>
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 500px; padding: 20px;">
+            <img src="img/P1.jpeg" class="mb-3" style="max-height: 350px; width: auto; object-fit: contain;" alt="Banner">
+            <p class="mt-2 fw-semibold fs-5">Banner</p>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 500px; padding: 10px;">
+            <video class="d-block w-10 rounded" controls>
+            <source src="musik/kasir.mp4" type="video/mp4">
+            </video>
+            <p class="mt-2 fw-semibold fs-5">Project Kasir</p>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+          <div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 500px; padding: 20px;">
+             <video class="d-block w-10 rounded" controls>
+            <source src="musik/penjualan.mp4" type="video/mp4">
+            </video>
+            <p class="mt-2 fw-semibold fs-5">Project Penjualan</p>
+          </div>
+        </div>
+
+<!-- Slide 4 -->
+        <div class="carousel-item">
+          <div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 500px; padding: 20px;">
+            <img src="img/.jpeg" class="mb-3" style="max-height: 350px; width: auto; object-fit: contain;" alt="Banner">
+            <p class="mt-2 fw-semibold fs-5">Project</p>
+          </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="carousel-item active">
+          <div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 500px; padding: 20px;">
+            <img src="img/.jpeg" class="mb-3" style="max-height: 350px; width: auto; object-fit: contain;" alt="Banner">
+            <p class="mt-2 fw-semibold fs-5">Promo</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselHeader" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+        <span class="visually-hidden">Sebelumnya</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselHeader" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+        <span class="visually-hidden">Berikutnya</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Cara Order -->
+<section id="cara-order" class="container text-center">
+  <h3 class="section-title">Cara Order</h3>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <i class="fas fa-edit fa-2x mb-2 text-primary"></i>
+      <h5>Isi Formulir</h5>
+      <p>Lengkapi data dan detail tugas kamu dengan jelas dan lengkap.</p>
+    </div>
+    <div class="col-md-4">
+      <i class="fas fa-comment-dots fa-2x mb-2 text-success"></i>
+      <h5>Konfirmasi</h5>
+      <p>Tim kami akan segera menghubungi Anda via WhatsApp untuk diskusi lebih lanjut.</p>
+    </div>
+    <div class="col-md-4">
+      <i class="fas fa-check-circle fa-2x mb-2 text-info"></i>
+      <h5>Selesai</h5>
+      <p>Tugas akan dikerjakan sesuai kesepakatan dan dikirimkan tepat waktu.</p>
+    </div>
+    <div class="col-md-4">
+  <i class="fas fa-wallet fa-2x mb-2 text-success"></i>
+  <h5>Lakukan Pembayaran</h5>
+  <p>Silakan lakukan pembayaran sesuai kesepakatan untuk memulai pengerjaan tugas Anda.</p>
+  </div>
+  </div>
+</section>
+
+<!-- Testimoni -->
+<section id="testimoni" class="container mt-5">
+  <h3 class="section-title text-center">Testimoni Klien</h3>
+  <div id="testiCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="card mx-auto" style="max-width: 600px;">
+          <div class="card-body text-center">
+            <p>"Cepat dan terpercaya! Tugas selesai dalam sehari. Mantap!"</p>
+            <small class="text-muted">- Andi, Mahasiswa</small>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="card mx-auto" style="max-width: 600px;">
+          <div class="card-body text-center">
+            <p>"Jasa terbaik untuk tugas-tugas kuliah. Sangat recommended."</p>
+            <small class="text-muted">- Rina, Pelajar</small>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="card mx-auto" style="max-width: 600px;">
+          <div class="card-body text-center">
+            <p>"Tugas coding dikerjakan rapi dan sesuai request. Lanjut terus!"</p>
+            <small class="text-muted">- Budi, Freelancer</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#testiCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-dark rounded-circle"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#testiCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
+    </button>
+  </div>
+</section>
+
+<!-- Blog -->
+<section id="blog" class="container mt-5">
+  <h3 class="section-title text-center">Blog Edukasi</h3>
+  <div id="blogCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="card mx-auto shadow-sm" style="max-width: 700px;">
+          <div class="card-body">
+            <h5 class="card-title">Tips Menyelesaikan Tugas Tepat Waktu</h5>
+            <p class="card-text">Pelajari cara mengatur waktu agar tugasmu tidak menumpuk dan bisa selesai tepat waktu.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="card mx-auto shadow-sm" style="max-width: 700px;">
+          <div class="card-body">
+            <h5 class="card-title">Kenapa Jasa Tugas Bisa Membantu?</h5>
+            <p class="card-text">Kami memiliki tim profesional dan ahli di berbagai bidang untuk membantumu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-dark rounded-circle"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#blogCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
+    </button>
+  </div>
+</section>
+
+<!-- Daftar Tugas Unggulan -->
+<section id="daftar-tugas" class="container mt-5">
+  <h3 class="section-title text-center">Daftar Tugas Unggulan Kami</h3>
+  <p class="text-center mb-4">Berikut ini adalah tugas unggulan dan paling diminati oleh pelanggan Buatin Tugasku selama beberapa bulan terakhir.</p>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Tugas Ppt</h5>
+          <p class="card-text">Tugas presentasi merupakan suatu materi secara singkat yang dibuat dalam power point.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Pembuatan Cv, Resume, Riwayat Hidup</h5>
+          <p class="card-text">Dengan desain sesuia permintaan dan menggunakan barcode linkedin.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Tugas Laporan, Skripsi, KTI, Makalah, Jurnal</h5>
+          <p class="card-text">Membantu penyusunan laporan penelitian, skripsi, makalah, jurnal sesuai format akademik.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Tugas Pembuatan Website dan Desain UI/UX</h5>
+          <p class="card-text">Membantu pengusaha, mahasiswa dan pelajar berbagai kebutuhan akademik dan perusahaan .</p>
+        </div>
+      </div>
+    </div>
+   <div class="col">
+  <div class="card shadow-sm h-100">
+    <div class="card-body">
+      <h5 class="card-title">Tugas Mapel</h5>
+      <p class="card-text">Membantu pengerjaan tugas mata pelajaran dari berbagai jenjang pendidikan dengan kualitas terbaik.</p>
+    </div>
+  </div>
+</div>
+
+<div class="col">
+  <div class="card shadow-sm h-100">
+    <div class="card-body">
+      <h5 class="card-title">Jasa Ketik & Editor</h5>
+      <p class="card-text">Menyediakan layanan pengetikan cepat dan editing dokumen agar sesuai standar dan bebas kesalahan.</p>
+    </div>
+  </div>
+</div>
+
+<div class="col">
+  <div class="card shadow-sm h-100">
+    <div class="card-body">
+      <h5 class="card-title">Jasa Menggambar</h5>
+      <p class="card-text">Layanan pembuatan gambar, ilustrasi, dan desain sesuai kebutuhan tugas maupun proyek kreatif.</p>
+    </div>
+  </div>
+</div>
+
+<div class="col">
+  <div class="card shadow-sm h-100">
+    <div class="card-body">
+      <h5 class="card-title">Mencari Artikel</h5>
+      <p class="card-text">Mencari dan merangkum artikel ilmiah, jurnal, dan sumber terpercaya untuk mendukung tugas dan penelitian Anda.</p>
+    </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="daftar-harga" class="py-5">
+  <div class="container harga-jasa">
+   <div class="text-center my-5 px-3">
+  <p class="text-black fw-semibold fs-5 mb-3">Harga – Jasa Tugas Terpercaya</p>
+
+  <h1 class="display-4 fw-bold mb-4 text-dark">Jasa Tugas Termurah</h1>
+
+  <p class="fs-5 text-secondary mb-3">
+    Kami berkomitmen memberikan layanan jasa tugas dengan harga terbaik bagi seluruh pelanggan kami. 
+    <strong>Jasa Tugas</strong> siap membantu pengerjaan tugas sekolah, kuliah, hingga tugas kantor dengan kualitas terpercaya.
+  </p>
+
+  <p class="fs-6 text-muted mb-4">
+    Harga yang tercantum adalah estimasi dan masih dapat dinegosiasikan sesuai dengan budget kamu. 
+    Kami ingin memastikan kamu mendapatkan harga terbaik dengan hasil yang memuaskan 🙂
+  </p>
+
+  <h3 class="fs-5 text-black fw-semibold" id="koneng">
+    Berikut adalah daftar harga jasa Tugas:
+  </h3>
+</div>
+
+
+    <!-- Jasa Tugas -->
+    <details class="mb-4">
+      <summary><strong>Jasa Tugas</strong></summary>
+      <div class="table-responsive mt-2">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>No</th>
+              <th>Jenis</th>
+              <th>Harga</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Makalah</td><td>Rp 70.000 –</td></tr>
+            <tr><td>2</td><td>Esai</td><td>Rp 50.000 –</td></tr>
+            <tr><td>3</td><td>Resume</td><td>Rp 50.000 –</td></tr>
+            <tr><td>4</td><td>Review</td><td>Rp 70.000 –</td></tr>
+            <tr><td>5</td><td>Parafrase</td><td>Rp 7.000 –</td></tr>
+            <tr><td>6</td><td>Cek Turnitin</td><td>Rp 8.000 / file</td></tr>
+            <tr><td>7</td><td>PPT</td><td>Rp 60.000 –</td></tr>
+            <tr><td>8</td><td>Artikel Jurnal</td><td>Rp 300.000 –</td></tr>
+            <tr><td>9</td><td>Laporan</td><td>Rp 250.000 –</td></tr>
+            <tr><td>10</td><td>Tugas Lainnya</td><td>Rp 50.000 –</td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Jasa Website -->
+    <details class="mb-4">
+      <summary><strong>Jasa Pembuatan Website</strong></summary>
+      <div class="table-responsive mt-2">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>No</th>
+              <th>Jenis</th>
+              <th>Harga</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Bisnis/Jualan</td><td>Rp 1.700.000–</td></tr>
+            <tr><td>2</td><td>Custom</td><td>Rp 7.000.000–</td></tr>
+            <tr><td>3</td><td>Desain Website</td><td>Rp 1.000.000–</td></tr>
+            <tr><td>4</td><td>Redesign</td><td>Rp 1.000.000–</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Jasa Skripsi/ Thesis -->
+    <details class="mb-4">
+      <summary><strong>Jasa skripsi</strong></summary>
+      <div class="table-responsive mt-2">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>No</th>
+              <th>Jenis</th>
+              <th>Harga</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Bab 1</td><td>Rp 300.000–</td></tr>
+            <tr><td>2</td><td>Bab 2</td><td>Rp 600.000 –</td></tr>
+            <tr><td>3</td><td>Bab 3</td><td>Rp 400.000 –</td></tr>
+            <tr><td>4</td><td>Paket Proposal</td><td>Rp 1.200.000 –</td></tr>
+            <tr><td>5</td><td>Bab 4</td><td>Rp 2000.000 –</td></tr>
+            <tr><td>6</td><td>Bab 5</td><td>Rp 150.000 –</td></tr>
+            <tr><td>7</td><td>Paket Bab 4-5</td><td>Rp 2.000.000 –</td></tr>
+            <tr><td>8</td><td>Paket Full Bab 1-5</td><td>Rp 3.100.000 –</td></tr>
+            <tr><td>9</td><td>Artikel Skripsi/ Disertasi</td><td>Rp 250.000 –</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- Google Maps -->
+<section id="lokasi">
+  <div class="container">
+    <h3 class="section-title text-center">Lokasi</h3>
+    <p class="section-title text-center">Alamat Jasa Tugas berikut:</p>
+    <div style="border: 2px solid #ddd; border-radius: 10px; overflow: hidden;">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15862.492865992135!2d106.48825468337235!3d-6.313127071095562!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e420879c45ee5a3%3A0xaf7975706e6fd0ea!2sRanca%20Buaya%2C%20Kec.%20Jambe%2C%20Kabupaten%20Tangerang%2C%20Banten!5e0!3m2!1sid!2sid!4v1747915178225!5m2!1sid!2sid" 
+        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- Formulir Pemesanan -->
+<section id="form-pemesanan" class="container mt-5 mb-5">
+  <h3 class="section-title text-center">Formulir Pemesanan Tugas</h3>
+  <form id="orderForm" novalidate>
+    <div class="mb-3">
+      <label for="nama" class="form-label">Nama Lengkap</label>
+      <input type="text" id="nama" class="form-control" required />
+      <div class="invalid-feedback">Nama harus diisi.</div>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" id="email" class="form-control" required />
+      <div class="invalid-feedback">Email harus valid dan diisi.</div>
+    </div>
+    <div class="mb-3">
+      <label for="jenis-tugas" class="form-label">Jenis Tugas</label>
+      <select id="jenis-tugas" class="form-select" required>
+        <option value="" selected disabled>Pilih Jenis Tugas</option>
+        <option value="Tugas Ppt">Menulis</option>
+        <option value="Tugas Ppt">TugaS Mapel</option>
+        <option value="Tugas Ppt">Menggambar</option>
+        <option value="Tugas Ppt">Jawab Esay</option>
+        <option value="Tugas Ppt">Jasa ketik/Editor</option>
+        <option value="Tugas Ppt">Tugas Ppt</option>
+        <option value="Pembuatan Cv, Resume, Riwayat Hidup">Pembuatan Cv, Resume, Riwayat Hidup</option>
+        <option value="Tugas Laporan, Skripsi, KTI, Makalah, Jurnal">Tugas Laporan, Skripsi, KTI, Makalah, Jurnal</option>
+        <option value="Tugas Pembuatan Website dan Desain UI/UX">Tugas Pembuatan Website dan Desain UI/UX</option>
+      </select>
+      <div class="invalid-feedback">Pilih jenis tugas.</div>
+    </div>
+    <div class="mb-3">
+      <label for="detail-tugas" class="form-label">Detail Tugas</label>
+      <textarea
+        id="detail-tugas"
+        class="form-control"
+        rows="4"
+        placeholder="Jelaskan tugas Anda dengan detail..."
+        required
+      ></textarea>
+      <div class="invalid-feedback">Detail tugas harus diisi.</div>
+    </div>
+    <div class="mb-3">
+      <label for="deadline" class="form-label">Deadline</label>
+      <input type="date" class="form-control" id="deadline" required />
+      <div class="invalid-feedback">Pilih deadline.</div>
+    </div>
+    <div class="mb-3">
+      <label for="budget" class="form-label">Budget (Rp)</label>
+      <input type="number" class="form-control" id="budget" min="10000" required />
+      <div class="invalid-feedback">Masukkan budget minimal Rp 10.000.</div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100"> <i class="bi bi-whatsapp me-2"></i>Kirim Pesanan</button>
+  </form>
+</section>
+
+<!-- Contact Section -->
+<section id="kontak" style="padding: 40px 0;">
+  <div class="container">
+  <div class="card mx-auto shadow-sm" style="max-width: 700px;">
+  <div class="card-body">
+    <h3 class="section-title text-center">Contact</h3>
+    <p>Silakan hubungi kami jika Anda memiliki pertanyaan atau konfirmasi kehadiran.</p>
+    <ul style="list-style: none; padding-left: 0;">
+      <li><strong>📞 Telepon:</strong> <a href="tel:+6285770885482">+62 85770885482</a></li>
+      <li><strong><i class="fab fa-instagram"></i> Instagram:</strong> <a href="https://instagram.com/Alalagas21" target="_blank">@Alalagas21</a></li>
+      <li><strong>📍 Alamat:</strong> Tigaraksa</li>
+      <li><strong>💬 WhatsApp:</strong> <a href="https://wa.me/6285770885482" target="_blank">Chat via WhatsApp</a></li>
+    </ul>
+  </div>
+</section>
+
+<button id="scrollTopBtn" class="btn btn-primary rounded-circle shadow" title="Kembali ke Atas">
+  <i class="bi bi-arrow-up"></i>
+</button>
+<!-- Loading Overlay Optional -->
+<div
+  id="loadingOverlay"
+  style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:9999; text-align:center; padding-top:20vh; color:#fff; font-size:2rem;"
+>
+  Loading...
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Jasa Tugas Online. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Library CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const orderForm = document.getElementById("orderForm");
+  const loadingOverlay = document.getElementById("loadingOverlay");
+
+  function formatDate(dateStr) {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
+  }
+
+  orderForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (!orderForm.checkValidity()) {
+      orderForm.classList.add("was-validated");
+      return;
+    }
+
+    const name = document.getElementById("nama").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const jenisTugas = document.getElementById("jenis-tugas").value;
+    const detailTugas = document.getElementById("detail-tugas").value.trim();
+    const deadline = document.getElementById("deadline").value;
+    const budget = document.getElementById("budget").value;
+
+    if (parseInt(budget, 10) < 10000) {
+      Swal.fire({
+        icon: "error",
+        title: "Budget terlalu rendah",
+        text: "Minimal Rp 10.000",
+      });
+      return;
+    }
+
+    // Show loading overlay
+    loadingOverlay.style.display = "block";
+
+    setTimeout(() => {
+      loadingOverlay.style.display = "none";
+
+      const waNumber = "6285770885482"; // Ganti dengan nomor WA kamu
+
+      const waMessage = `Halo Admin Jasa Tugas!%0A*Pesanan Baru:*%0ANama: ${encodeURIComponent(
+        name
+      )}%0AEmail: ${encodeURIComponent(email)}%0AJenis Tugas: ${encodeURIComponent(
+        jenisTugas
+      )}%0ADetail Tugas: ${encodeURIComponent(
+        detailTugas
+      )}%0ADeadline: ${formatDate(deadline)}%0ABudget: Rp ${parseInt(
+        budget
+      ).toLocaleString("id-ID")}%0ATerima kasih!`;
+
+      const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
+      window.open(waLink, "_blank");
+    }, 1500);
+  });
+   const toggleBtn = document.getElementById('toggleDark');
+  toggleBtn.addEventListener('click', function () {
+    document.body.classList.toggle('dark-mode');
+  });
+ const scrollBtn = document.getElementById("scrollTopBtn");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 200) {
+      scrollBtn.style.display = "flex";
+    } else {
+      scrollBtn.style.display = "none";
+    }
+  });
+
+  scrollBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  const musik = document.getElementById('musik');
+  const tombol = document.getElementById('tombolMusik');
+  const ikon = document.getElementById('ikonMusik');
+  let playing = false;
+
+  tombol.addEventListener('click', () => {
+    if (playing) {
+      musik.pause();
+      tombol.innerHTML = `
+        <svg id="ikonMusik" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 17H7a4 4 0 0 1 0-8h2v8zm8 0h-2V7h2a4 4 0 0 1 0 10z"/></svg>
+        Musik ON
+      `;
+      playing = false;
+    } else {
+      musik.play();
+      tombol.innerHTML = `
+        <svg id="ikonMusik" class="rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v18c-4.97 0-9-4.03-9-9s4.03-9 9-9zm0-2C5.925 1 1 5.925 1 12s4.925 11 11 11V1z"/></svg>
+        Musik OFF
+      `;
+      playing = true;
+    }
+  });
+</script>
+
+</body>
+</html>
