@@ -708,7 +708,26 @@ if (uploadGambar.length > 5) {
   });
   return;
 }
+$uploadDir = "drive/folders/uploads/";
+$uploadedFiles = [];
+$allowedTypes = ['jpg', 'jpeg', 'png', 'pdf', 'docx'];
 
+if (!is_dir($uploadDir)) {
+  mkdir($uploadDir, 0755, true);
+}
+
+foreach ($_FILES['files']['tmp_name'] as $key => $tmpName) {
+  $fileName = basename($_FILES['files']['name'][$key]);
+  $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+
+  if (in_array(strtolower($fileType), $allowedTypes)) {
+    $targetFile = $uploadDir . uniqid() . "_" . $fileName;
+
+    if (move_uploaded_file($tmpName, $targetFile)) {
+      $uploadedFiles[] = "https://drive.google.com/drive/folders/1oLzFh1Paqrfq8l4zlnii8hZF_GNsOSL7?usp=sharing" . $targetFile; // Ganti dengan domain kamu
+    }
+  }
+}
 
     // Show loading overlay
     loadingOverlay.style.display = "block";
@@ -731,7 +750,6 @@ if (uploadGambar.length > 5) {
       .map((file, index) => `- ${encodeURIComponent(file.name)}%0A`)
       .join("")
   : `Tidak ada file yang diupload.%0A`) +
-
     `Terima kasih!`;
 
       const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
