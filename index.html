@@ -711,20 +711,22 @@
     // Show loading overlay
     loadingOverlay.style.display = "block";
 
-    setTimeout(() => {
-      loadingOverlay.style.display = "none";
+  setTimeout(() => {
+  loadingOverlay.style.display = "none";
 
-      const waNumber = "62895359790341"; // Ganti dengan nomor WA kamu
+  const waNumber = "62895359790341"; // Ganti dengan nomor WA kamu
 
-      const waMessage = `Halo Admin Jasa Tugas!%0A*Pesanan Baru:*%0ANama: ${encodeURIComponent(
-        name
-      )}%0AEmail: ${encodeURIComponent(email)}%0AJenis Tugas: ${encodeURIComponent(
-        jenisTugas
-      )}%0ADetail Tugas: ${encodeURIComponent(
-        detailTugas
-      )}%0ADeadline: ${formatDate(deadline)}%0ABudget: Rp ${parseInt(
-        budget
-      ).toLocaleString("id-ID")}%0ATerima kasih!`;
+  const waMessage = `Halo Admin Jasa Tugas!%0A*Pesanan Baru:*%0A` +
+    `Nama: ${encodeURIComponent(name)}%0A` +
+    `Email: ${encodeURIComponent(email)}%0A` +
+    `Jenis Tugas: ${encodeURIComponent(jenisTugas)}%0A` +
+    `Detail Tugas: ${encodeURIComponent(detailTugas)}%0A` +
+    `Deadline: ${formatDate(deadline)}%0A` +
+    `Budget: Rp ${parseInt(budget).toLocaleString("id-ID")}%0A` +
+    (jumlahFile > 0
+      ? `Jumlah File Upload: ${jumlahFile} file%0A`
+      : `Tidak ada file yang diupload.%0A`) +
+    `Terima kasih!`;
 
       const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
       window.open(waLink, "_blank");
