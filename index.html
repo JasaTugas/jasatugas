@@ -119,6 +119,63 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+ section {
+      margin-top: 50px;
+    }
+
+    h2, h3.section-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profil-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .kartu-profil {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .kartu-profil img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .kartu-profil h3 {
+      margin: 10px 0 5px;
+      font-size: 20px;
+    }
+
+    .kartu-profil p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .kontak a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: white;
+      background-color: #007bff;
+      padding: 8px 16px;
+      border-radius: 6px;
+    }
+
+    .kontak a:hover {
+      background-color: #0056b3;
+    }
+
   </style>
 </head>
 <body>
@@ -139,6 +196,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#cara-order">Cara Order</a></li>
+         <li class="nav-item"><a class="nav-link" href="#profil-pekerja">Profil Pekerja</a></li>
         <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
         <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
         <li class="nav-item"><a class="nav-link" href="#daftar-tugas">Tugas</a></li>
@@ -236,7 +294,36 @@
   </div>
   </div>
 </section>
+<!-- Profil Pekerja -->
+  <section id="profil-pekerja" class="container mt-5">
+    <h3 class="section-title">Tim Pekerja Jasa Tugas</h3> 
+    <div class="profil-container">
+      <div class="kartu-profil">
+        <img src="https://via.placeholder.com/100" alt="Foto Pekerja">
+        <h3>Dendy/Kemod</h3>
+        <p><strong>Pengalaman:</strong> Pembuatan Makalah, Website</p>
+        <p><strong>Drive:</strong> 
+          <a href="https://drive.google.com/drive/folders/your-folder-id" target="_blank">Klik untuk lihat</a>
+        </p>
+        <div class="kontak">
+          <a href="https://wa.me/6281234567890" target="_blank">Hubungi via WhatsApp</a>
+        </div>
+      </div>
 
+      <div class="kartu-profil">
+        <img src="https://via.placeholder.com/100" alt="Foto Pekerja">
+        <h3>Lala</h3>
+        <p><strong>Pengalaman:</strong> Makalah, KTI</p>
+        <p><strong>Drive:</strong> 
+          <a href="https://drive.google.com/drive/folders/your-folder-id" target="_blank">Klik untuk lihat</a>
+        </p>
+        <div class="kontak">
+          <a href="https://wa.me/6281234567890" target="_blank">Hubungi via WhatsApp</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
 <!-- Testimoni -->
 <section id="testimoni" class="container mt-5">
   <h3 class="section-title text-center">Testimoni Klien</h3>
