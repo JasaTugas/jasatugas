@@ -608,6 +608,11 @@
       <div class="invalid-feedback">Detail tugas harus diisi.</div>
     </div>
     <div class="mb-3">
+    <label for="upload-gambar" class="form-label">Upload Gambar / Dokumen Pendukung</label>
+    <input type="file" id="upload-gambar" class="form-control" accept="image/*,.pdf,.doc,.docx" multiple />
+    <small class="text-muted">Bisa pilih lebih dari 1 file (gambar, PDF, DOC)</small>
+    </div>
+    <div class="mb-3">
       <label for="deadline" class="form-label">Deadline</label>
       <input type="date" class="form-control" id="deadline" required />
       <div class="invalid-feedback">Pilih deadline.</div>
@@ -682,6 +687,8 @@
     const detailTugas = document.getElementById("detail-tugas").value.trim();
     const deadline = document.getElementById("deadline").value;
     const budget = document.getElementById("budget").value;
+    const uploadGambar = document.getElementById("upload-gambar").files;
+
 
     if (parseInt(budget, 10) < 10000) {
       Swal.fire({
@@ -691,6 +698,15 @@
       });
       return;
     }
+    if (uploadGambar.length > 5) {
+  Swal.fire({
+    icon: "warning",
+    title: "Terlalu banyak file",
+    text: "Maksimal upload 5 file.",
+  });
+  return;
+}
+
 
     // Show loading overlay
     loadingOverlay.style.display = "block";
