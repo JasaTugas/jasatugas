@@ -725,9 +725,13 @@ if (uploadGambar.length > 5) {
     `Detail Tugas: ${encodeURIComponent(detailTugas)}%0A` +
     `Deadline: ${formatDate(deadline)}%0A` +
     `Budget: Rp ${parseInt(budget).toLocaleString("id-ID")}%0A` +
-    (jumlahFile > 0
-      ? `Jumlah File Upload: ${jumlahFile} file%0A`
-      : `Tidak ada file yang diupload.%0A`) +
+   (jumlahFile > 0
+  ? `Jumlah File Upload: ${jumlahFile} file%0A` +
+    Array.from(uploadGambar)
+      .map((file, index) => `- ${encodeURIComponent(file.name)}%0A`)
+      .join("")
+  : `Tidak ada file yang diupload.%0A`) +
+
     `Terima kasih!`;
 
       const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
