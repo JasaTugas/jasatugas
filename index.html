@@ -300,9 +300,10 @@
 
   <!-- Form -->
   <form id="formTesti" class="mb-4 mx-auto" style="max-width: 600px;">
+    <input type="hidden" id="idEdit">
     <input type="text" id="nama" class="form-control mb-2" placeholder="Nama Anda" required>
-    <textarea id="pesan" class="form-control mb-2" placeholder="Tulis pesan testimoni..." required></textarea>
-    <button type="submit" class="btn btn-primary w-100">Kirim Testimoni</button>
+    <textarea id="pesan" class="form-control mb-2" placeholder="Tulis testimoni..." required></textarea>
+    <button type="submit" class="btn btn-primary w-100">Kirim / Update</button>
   </form>
 
   <!-- Daftar Testimoni -->
@@ -738,19 +739,16 @@ document.getElementById("formTesti").addEventListener("submit", function(e) {
   const pesan = document.getElementById("pesan").value.trim();
   if (!nama || !pesan) return;
 
-  const formData = new URLSearchParams({
-    action: id ? "edit" : "add",
-    id,
-    nama,
-    pesan
-  });
+  const action = id ? "edit" : "add";
+  const body = new URLSearchParams({ action, nama, pesan });
+  if (id) body.append("id", id);
 
   fetch(sheetURL, {
     method: "POST",
-    body: formData
+    body
   }).then(() => {
-    alert(id ? "Testimoni diperbarui!" : "Testimoni dikirim!");
-    this.reset();
+    alert(id ? "Berhasil diubah!" : "Berhasil dikirim!");
+    document.getElementById("formTesti").reset();
     document.getElementById("idEdit").value = "";
     ambilTestimoni();
   });
@@ -780,6 +778,13 @@ function ambilTestimoni() {
     });
 }
 
+function editTestimoni(id, nama, pesan) {
+  document.getElementById("idEdit").value = id;
+  document.getElementById("nama").value = nama;
+  document.getElementById("pesan").value = pesan;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 function hapusTestimoni(id) {
   if (confirm("Hapus testimoni ini?")) {
     fetch(sheetURL, {
@@ -787,13 +792,6 @@ function hapusTestimoni(id) {
       body: new URLSearchParams({ action: "delete", id })
     }).then(() => ambilTestimoni());
   }
-}
-
-function editTestimoni(id, nama, pesan) {
-  document.getElementById("idEdit").value = id;
-  document.getElementById("nama").value = nama;
-  document.getElementById("pesan").value = pesan;
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 ambilTestimoni();
