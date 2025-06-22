@@ -300,7 +300,7 @@
 
   <!-- Form Testimoni -->
   <form id="formTesti" class="mb-4 mx-auto" style="max-width: 600px;">
-    <input type="hidden" id="idEdit">
+    <input type="hidden" id="id">
     <input type="text" id="nama" class="form-control mb-2" placeholder="Nama Anda" required>
     <textarea id="pesan" class="form-control mb-2" placeholder="Tulis pesan testimoni..." required></textarea>
     <button type="submit" class="btn btn-primary w-100">Kirim Testimoni</button>
@@ -758,7 +758,7 @@ function ambilTestimoni() {
 // Tambah/Edit Testimoni
 formTesti.addEventListener("submit", function(e) {
   e.preventDefault();
-  const id = document.getElementById("idEdit").value;
+  const id = document.getElementById("id").value;
   const nama = document.getElementById("nama").value.trim();
   const pesan = document.getElementById("pesan").value.trim();
   if (!nama || !pesan) return;
@@ -776,7 +776,7 @@ formTesti.addEventListener("submit", function(e) {
 });
 
 function isiEdit(id, nama, pesan) {
-  document.getElementById("idEdit").value = id;
+  document.getElementById("id").value = id;
   document.getElementById("nama").value = nama;
   document.getElementById("pesan").value = pesan;
   window.scrollTo(0, 0);
