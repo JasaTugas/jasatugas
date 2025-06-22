@@ -295,36 +295,17 @@
 </section>
   
 <!-- Testimoni -->
-<section id="testimoni" class="container my-5">
-  <h3 class="text-center mb-4">Testimoni Klien</h3>
-  <div id="testiCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner" id="testiWrapper">
-      <!-- Diisi otomatis oleh JavaScript -->
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#testiCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon bg-dark rounded-circle"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#testiCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
-    </button>
-  </div>
-</section>
+  <div class="container my-5">
+  <h2 class="text-center mb-4">💬 Testimoni Klien</h2>
+  <form id="formTesti" class="mb-5 mx-auto" style="max-width: 600px;">
+    <input type="text" id="nama" class="form-control mb-2" placeholder="Nama Anda" required>
+    <textarea id="pesan" class="form-control mb-2" placeholder="Tulis pesan testimoni..." required></textarea>
+    <button type="submit" class="btn btn-primary w-100">Kirim Testimoni</button>
+  </form>
 
-<!-- ==== CAROUSEL TESTIMONI ==== -->
-<section id="testimoni" class="container my-5">
-  <h3 class="text-center mb-4">💬 Testimoni Klien</h3>
-  <div id="testiCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner" id="testiWrapper">
-      <!-- Diisi otomatis -->
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#testiCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#testiCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
-    </button>
-  </div>
-</section>
+  <!-- List Testimoni -->
+  <div id="daftarTestimoni"></div>
+</div>
 
 <!-- Blog -->
 <section id="blog" class="container mt-5">
@@ -746,36 +727,47 @@
     }
   });
 <!-- Script Testimoni -->
- const testimonies = [
-    {
-      nama: "Andi, Mahasiswa",
-      pesan: "Cepat dan terpercaya! Tugas selesai dalam sehari. Mantap! 👍"
-    },
-    {
-      nama: "Rina, Pelajar",
-      pesan: "Jasa terbaik untuk tugas-tugas kuliah. Sangat recommended!"
-    },
-    {
-      nama: "Budi, Freelancer",
-      pesan: "Tugas coding dikerjakan rapi dan sesuai request. Lanjut terus!"
-    }
-  ];
+const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec';
 
-  const testiWrapper = document.getElementById("testiWrapper");
+// Kirim Testimoni
+document.getElementById("formTesti").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const nama = document.getElementById("nama").value.trim();
+  const pesan = document.getElementById("pesan").value.trim();
+  if (!nama || !pesan) return;
 
-  testimonies.forEach((item, index) => {
-    const activeClass = index === 0 ? "active" : "";
-    testiWrapper.innerHTML += `
-      <div class="carousel-item ${activeClass}">
-        <div class="card mx-auto shadow-sm" style="max-width: 600px;">
-          <div class="card-body text-center">
-            <p>"${item.pesan}"</p>
-            <small class="text-muted">- ${item.nama}</small>
-          </div>
-        </div>
-      </div>
-    `;
+  fetch(sheetURL, {
+    method: "POST",
+    body: new URLSearchParams({ nama, pesan })
+  })
+  .then(() => {
+    alert("Testimoni berhasil dikirim!");
+    this.reset();
+    ambilTestimoni();
   });
+});
+
+// Tampilkan Testimoni
+function ambilTestimoni() {
+  fetch(sheetURL)
+    .then(res => res.json())
+    .then(data => {
+      let html = "";
+      data.reverse().forEach(t => {
+        html += `
+          <div class="card mb-3">
+            <div class="card-body">
+              <p>"${t.pesan}"</p>
+              <h6 class="text-end text-muted">– ${t.nama}</h6>
+            </div>
+          </div>`;
+      });
+      document.getElementById("daftarTestimoni").innerHTML = html;
+    });
+}
+
+// Load pertama kali
+ambilTestimoni();
 </script>
 
 </body>
