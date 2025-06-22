@@ -295,40 +295,31 @@
 </section>
   
 <!-- Testimoni -->
-<section id="testimoni" class="container mt-5">
-  <h3 class="section-title text-center">Testimoni Klien</h3>
+<section class="container my-5">
+  <h3 class="text-center mb-4">Kirim Testimoni</h3>
+  <form id="formTesti" class="mx-auto" style="max-width: 600px;">
+    <div class="mb-3">
+      <input type="text" id="nama" class="form-control" placeholder="Nama Anda" required>
+    </div>
+    <div class="mb-3">
+      <textarea id="pesan" class="form-control" placeholder="Tulis testimoni Anda..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Kirim</button>
+  </form>
+</section>
+
+<!-- ==== CAROUSEL TESTIMONI ==== -->
+<section id="testimoni" class="container my-5">
+  <h3 class="text-center mb-4">💬 Testimoni Klien</h3>
   <div id="testiCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="card mx-auto" style="max-width: 600px;">
-          <div class="card-body text-center">
-            <p>"Cepat dan terpercaya! Tugas selesai dalam sehari. Mantap!"</p>
-            <small class="text-muted">- Andi, Mahasiswa</small>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="card mx-auto" style="max-width: 600px;">
-          <div class="card-body text-center">
-            <p>"Jasa terbaik untuk tugas-tugas kuliah. Sangat recommended."</p>
-            <small class="text-muted">- Rina, Pelajar</small>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="card mx-auto" style="max-width: 600px;">
-          <div class="card-body text-center">
-            <p>"Tugas coding dikerjakan rapi dan sesuai request. Lanjut terus!"</p>
-            <small class="text-muted">- Budi, Freelancer</small>
-          </div>
-        </div>
-      </div>
+    <div class="carousel-inner" id="testiWrapper">
+      <!-- Diisi otomatis -->
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#testiCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon bg-dark rounded-circle"></span>
+      <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#testiCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
+      <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
     </button>
   </div>
 </section>
@@ -752,6 +743,52 @@
       playing = true;
     }
   });
+<!-- Script Testimoni -->
+const getTestimoni = () => JSON.parse(localStorage.getItem("testimoniList") || "[]");
+
+  // Simpan data ke localStorage
+  const simpanTestimoni = (nama, pesan) => {
+    const data = getTestimoni();
+    data.unshift({ nama, pesan, foto: `https://i.pravatar.cc/100?u=${Date.now()}` });
+    localStorage.setItem("testimoniList", JSON.stringify(data));
+    tampilkanTestimoni();
+  };
+
+  // Tampilkan testimoni ke dalam carousel
+  function tampilkanTestimoni() {
+    const data = getTestimoni();
+    const wrapper = document.getElementById("testiWrapper");
+    wrapper.innerHTML = "";
+    data.forEach((item, index) => {
+      const active = index === 0 ? "active" : "";
+      wrapper.innerHTML += `
+        <div class="carousel-item ${active}">
+          <div class="card mx-auto text-center border-0 shadow-sm p-4" style="max-width: 600px;">
+            <img src="${item.foto}" class="rounded-circle mb-3" width="80" height="80">
+            <div class="card-body">
+              <p class="fst-italic">"${item.pesan}"</p>
+              <h6 class="mt-3 mb-0">${item.nama}</h6>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // Handle form submit
+  document.getElementById("formTesti").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const nama = document.getElementById("nama").value.trim();
+    const pesan = document.getElementById("pesan").value.trim();
+    if (nama && pesan) {
+      simpanTestimoni(nama, pesan);
+      this.reset();
+      alert("Terima kasih! Testimoni Anda telah dikirim.");
+    }
+  });
+
+  // Jalankan saat halaman dibuka
+  tampilkanTestimoni();
 </script>
 
 </body>
