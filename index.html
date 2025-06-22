@@ -729,20 +729,29 @@
     }
   });
 <!-- Script Testimoni -->
-const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec'; // Ganti link di sini
+const sheetURL = 'https://script.google.com/macros/s/AKfycbzL8PBGx8aJJTZAHd9cvgkIpKdLB2440bG7Qa5E80UoVQZEouuhd3H_riduLq-mTuCZ/exec';
 
 document.getElementById("formTesti").addEventListener("submit", function(e) {
   e.preventDefault();
+  const id = document.getElementById("idEdit").value;
   const nama = document.getElementById("nama").value.trim();
   const pesan = document.getElementById("pesan").value.trim();
   if (!nama || !pesan) return;
 
+  const formData = new URLSearchParams({
+    action: id ? "edit" : "add",
+    id,
+    nama,
+    pesan
+  });
+
   fetch(sheetURL, {
     method: "POST",
-    body: new URLSearchParams({ action: "add", nama, pesan })
+    body: formData
   }).then(() => {
-    alert("Testimoni berhasil dikirim!");
+    alert(id ? "Testimoni diperbarui!" : "Testimoni dikirim!");
     this.reset();
+    document.getElementById("idEdit").value = "";
     ambilTestimoni();
   });
 });
@@ -753,11 +762,17 @@ function ambilTestimoni() {
     .then(data => {
       let html = "";
       data.reverse().forEach(t => {
+        const namaSafe = t.nama.replace(/'/g, "\\'");
+        const pesanSafe = t.pesan.replace(/'/g, "\\'");
         html += `
           <div class="card mb-3 shadow-sm">
             <div class="card-body">
               <p>"${t.pesan}"</p>
               <h6 class="text-end text-muted">– ${t.nama}</h6>
+              <div class="text-end mt-2">
+                <button class="btn btn-sm btn-warning me-2" onclick="editTestimoni('${t.id}', '${namaSafe}', '${pesanSafe}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusTestimoni('${t.id}')">Hapus</button>
+              </div>
             </div>
           </div>`;
       });
@@ -765,9 +780,23 @@ function ambilTestimoni() {
     });
 }
 
-// Tampilkan testimoni saat halaman dibuka
-ambilTestimoni();
+function hapusTestimoni(id) {
+  if (confirm("Hapus testimoni ini?")) {
+    fetch(sheetURL, {
+      method: "POST",
+      body: new URLSearchParams({ action: "delete", id })
+    }).then(() => ambilTestimoni());
+  }
+}
 
+function editTestimoni(id, nama, pesan) {
+  document.getElementById("idEdit").value = id;
+  document.getElementById("nama").value = nama;
+  document.getElementById("pesan").value = pesan;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+ambilTestimoni();
 </script>
 
 </body>
