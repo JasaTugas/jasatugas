@@ -731,6 +731,7 @@
 <!-- Script Testimoni -->
 const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec'; // Ganti link di sini
 
+
 // Kirim Testimoni
 document.getElementById("formTesti").addEventListener("submit", function(e) {
   e.preventDefault();
@@ -749,23 +750,49 @@ document.getElementById("formTesti").addEventListener("submit", function(e) {
   });
 });
 
-// Ambil Testimoni
+// Ambil dan tampilkan testimoni
 function ambilTestimoni() {
   fetch(sheetURL)
     .then(res => res.json())
     .then(data => {
       let html = "";
       data.reverse().forEach(t => {
+        const namaSafe = t.nama.replace(/'/g, "\\'");
+        const pesanSafe = t.pesan.replace(/'/g, "\\'");
         html += `
           <div class="card mb-3 shadow-sm">
             <div class="card-body">
               <p>"${t.pesan}"</p>
               <h6 class="text-end text-muted">– ${t.nama}</h6>
+              <div class="text-end mt-2">
+                <button class="btn btn-sm btn-warning me-2" onclick="editTestimoni(${t.id}, '${namaSafe}', '${pesanSafe}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusTestimoni(${t.id})">Hapus</button>
+              </div>
             </div>
           </div>`;
       });
       document.getElementById("daftarTestimoni").innerHTML = html;
     });
+}
+
+// Fungsi hapus testimoni
+function hapusTestimoni(id) {
+  if (confirm("Yakin ingin menghapus testimoni ini?")) {
+    fetch(`${sheetURL}?id=${id}`, { method: "DELETE" })
+      .then(() => ambilTestimoni());
+  }
+}
+
+// Fungsi edit testimoni
+function editTestimoni(id, oldNama, oldPesan) {
+  const namaBaru = prompt("Edit nama:", oldNama);
+  const pesanBaru = prompt("Edit pesan:", oldPesan);
+  if (!namaBaru || !pesanBaru) return;
+
+  fetch(`${sheetURL}?id=${id}&nama=${encodeURIComponent(namaBaru)}&pesan=${encodeURIComponent(pesanBaru)}`, {
+    method: "PUT"
+  })
+  .then(() => ambilTestimoni());
 }
 
 // Tampilkan saat pertama kali
