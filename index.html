@@ -729,7 +729,7 @@
     }
   });
 <!-- Script Testimoni -->
-const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec';
+const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec'; // Ganti link di sini
 
 // Kirim Testimoni
 document.getElementById("formTesti").addEventListener("submit", function(e) {
@@ -749,7 +749,7 @@ document.getElementById("formTesti").addEventListener("submit", function(e) {
   });
 });
 
-// Tampilkan Testimoni
+// Ambil Testimoni
 function ambilTestimoni() {
   fetch(sheetURL)
     .then(res => res.json())
@@ -757,7 +757,7 @@ function ambilTestimoni() {
       let html = "";
       data.reverse().forEach(t => {
         html += `
-          <div class="card mb-3">
+          <div class="card mb-3 shadow-sm">
             <div class="card-body">
               <p>"${t.pesan}"</p>
               <h6 class="text-end text-muted">– ${t.nama}</h6>
@@ -768,7 +768,7 @@ function ambilTestimoni() {
     });
 }
 
-// Load pertama kali
+// Tampilkan saat pertama kali
 ambilTestimoni();
 </script>
 
