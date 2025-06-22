@@ -731,8 +731,6 @@
 <!-- Script Testimoni -->
 const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec'; // Ganti link di sini
 
-
-// Kirim Testimoni
 document.getElementById("formTesti").addEventListener("submit", function(e) {
   e.preventDefault();
   const nama = document.getElementById("nama").value.trim();
@@ -750,7 +748,6 @@ document.getElementById("formTesti").addEventListener("submit", function(e) {
   });
 });
 
-// Ambil dan tampilkan testimoni
 function ambilTestimoni() {
   fetch(sheetURL)
     .then(res => res.json())
@@ -775,7 +772,6 @@ function ambilTestimoni() {
     });
 }
 
-// Fungsi hapus testimoni
 function hapusTestimoni(id) {
   if (confirm("Yakin ingin menghapus testimoni ini?")) {
     fetch(`${sheetURL}?id=${id}`, { method: "DELETE" })
@@ -783,7 +779,6 @@ function hapusTestimoni(id) {
   }
 }
 
-// Fungsi edit testimoni
 function editTestimoni(id, oldNama, oldPesan) {
   const namaBaru = prompt("Edit nama:", oldNama);
   const pesanBaru = prompt("Edit pesan:", oldPesan);
@@ -795,7 +790,7 @@ function editTestimoni(id, oldNama, oldPesan) {
   .then(() => ambilTestimoni());
 }
 
-// Tampilkan saat pertama kali
+// Load data awal
 ambilTestimoni();
 </script>
 
