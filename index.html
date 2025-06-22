@@ -734,7 +734,7 @@ const sheetURL = 'https://script.google.com/macros/s/AKfycbwCjhgYYXxK1_S0iAExoom
 
 document.getElementById("formTesti").addEventListener("submit", function(e) {
   e.preventDefault();
-  const id = document.getElementById("idEdit").value;
+  const id = document.getElementById("id").value;
   const nama = document.getElementById("nama").value.trim();
   const pesan = document.getElementById("pesan").value.trim();
   if (!nama || !pesan) return;
@@ -749,7 +749,7 @@ document.getElementById("formTesti").addEventListener("submit", function(e) {
   }).then(() => {
     alert(id ? "Berhasil diubah!" : "Berhasil dikirim!");
     document.getElementById("formTesti").reset();
-    document.getElementById("idEdit").value = "";
+    document.getElementById("id").value = "";
     ambilTestimoni();
   });
 });
@@ -779,7 +779,7 @@ function ambilTestimoni() {
 }
 
 function editTestimoni(id, nama, pesan) {
-  document.getElementById("idEdit").value = id;
+  document.getElementById("id").value = id;
   document.getElementById("nama").value = nama;
   document.getElementById("pesan").value = pesan;
   window.scrollTo({ top: 0, behavior: "smooth" });
