@@ -731,7 +731,7 @@
 <!-- Script Testimoni -->
 const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec'; // Ganti link di sini
 
- document.getElementById("formTesti").addEventListener("submit", function(e) {
+document.getElementById("formTesti").addEventListener("submit", function(e) {
   e.preventDefault();
   const nama = document.getElementById("nama").value.trim();
   const pesan = document.getElementById("pesan").value.trim();
@@ -753,24 +753,21 @@ function ambilTestimoni() {
     .then(data => {
       let html = "";
       data.reverse().forEach(t => {
-        const namaSafe = t.nama.replace(/'/g, "\\'");
-        const pesanSafe = t.pesan.replace(/'/g, "\\'");
         html += `
           <div class="card mb-3 shadow-sm">
             <div class="card-body">
               <p>"${t.pesan}"</p>
               <h6 class="text-end text-muted">– ${t.nama}</h6>
-              <div class="text-end mt-2">
-                <button class="btn btn-sm btn-warning me-2" onclick="editTestimoni('${t.id}', '${namaSafe}', '${pesanSafe}')">Edit</button>
-                <button class="btn btn-sm btn-danger" onclick="hapusTestimoni('${t.id}')">Hapus</button>
-              </div>
             </div>
           </div>`;
       });
       document.getElementById("daftarTestimoni").innerHTML = html;
     });
 }
+
+// Tampilkan testimoni saat halaman dibuka
 ambilTestimoni();
+
 </script>
 
 </body>
