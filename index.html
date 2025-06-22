@@ -744,21 +744,28 @@
     }
   });
 <!-- Script Testimoni -->
-const getTestimoni = () => JSON.parse(localStorage.getItem("testimoniList") || "[]");
+ // Ambil dari localStorage
+  const getTestimoni = () => JSON.parse(localStorage.getItem("testimoniList") || "[]");
 
-  // Simpan data ke localStorage
+  // Simpan kembali ke localStorage
+  const setTestimoni = (data) => localStorage.setItem("testimoniList", JSON.stringify(data));
+
+  // Simpan testimoni baru
   const simpanTestimoni = (nama, pesan) => {
     const data = getTestimoni();
-    data.unshift({ nama, pesan, foto: `https://i.pravatar.cc/100?u=${Date.now()}` });
-    localStorage.setItem("testimoniList", JSON.stringify(data));
+    const id = Date.now(); // ID unik
+    const foto = `https://i.pravatar.cc/100?u=${id}`;
+    data.unshift({ id, nama, pesan, foto });
+    setTestimoni(data);
     tampilkanTestimoni();
   };
 
-  // Tampilkan testimoni ke dalam carousel
+  // Tampilkan testimoni
   function tampilkanTestimoni() {
     const data = getTestimoni();
     const wrapper = document.getElementById("testiWrapper");
     wrapper.innerHTML = "";
+
     data.forEach((item, index) => {
       const active = index === 0 ? "active" : "";
       wrapper.innerHTML += `
@@ -767,7 +774,9 @@ const getTestimoni = () => JSON.parse(localStorage.getItem("testimoniList") || "
             <img src="${item.foto}" class="rounded-circle mb-3" width="80" height="80">
             <div class="card-body">
               <p class="fst-italic">"${item.pesan}"</p>
-              <h6 class="mt-3 mb-0">${item.nama}</h6>
+              <h6 class="mb-3">${item.nama}</h6>
+              <button class="btn btn-sm btn-warning me-2" onclick="editTestimoni(${item.id})">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusTestimoni(${item.id})">Hapus</button>
             </div>
           </div>
         </div>
@@ -775,8 +784,34 @@ const getTestimoni = () => JSON.parse(localStorage.getItem("testimoniList") || "
     });
   }
 
-  // Handle form submit
-  document.getElementById("formTesti").addEventListener("submit", function(e) {
+  // Hapus testimoni
+  function hapusTestimoni(id) {
+    if (confirm("Yakin ingin menghapus testimoni ini?")) {
+      const data = getTestimoni().filter(t => t.id !== id);
+      setTestimoni(data);
+      tampilkanTestimoni();
+    }
+  }
+
+  // Edit testimoni
+  function editTestimoni(id) {
+    const data = getTestimoni();
+    const index = data.findIndex(t => t.id === id);
+    if (index !== -1) {
+      const item = data[index];
+      const namaBaru = prompt("Edit nama:", item.nama);
+      const pesanBaru = prompt("Edit testimoni:", item.pesan);
+      if (namaBaru && pesanBaru) {
+        data[index].nama = namaBaru;
+        data[index].pesan = pesanBaru;
+        setTestimoni(data);
+        tampilkanTestimoni();
+      }
+    }
+  }
+
+  // Form kirim testimoni
+  document.getElementById("formTesti").addEventListener("submit", function (e) {
     e.preventDefault();
     const nama = document.getElementById("nama").value.trim();
     const pesan = document.getElementById("pesan").value.trim();
@@ -787,7 +822,7 @@ const getTestimoni = () => JSON.parse(localStorage.getItem("testimoniList") || "
     }
   });
 
-  // Jalankan saat halaman dibuka
+  // Tampilkan awal
   tampilkanTestimoni();
 </script>
 
