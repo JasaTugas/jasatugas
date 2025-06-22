@@ -771,15 +771,16 @@ function ambilTestimoni() {
     .then(res => res.json())
     .then(data => {
       let html = "";
-      data.reverse().forEach(t => {
+      data.reverse().forEach((t, index) => {
+        const activeClass = index === 0 ? "active" : "";
         const namaSafe = t.nama.replace(/'/g, "\\'");
         const pesanSafe = t.pesan.replace(/'/g, "\\'");
         html += `
-          <div class="card mb-3 shadow-sm">
-            <div class="card-body">
+          <div class="carousel-item ${activeClass}">
+            <div class="card mx-auto text-center shadow-sm p-4" style="max-width: 600px;">
               <p>"${t.pesan}"</p>
-              <h6 class="text-end text-muted">– ${t.nama}</h6>
-              <div class="text-end mt-2">
+              <h6 class="text-muted">– ${t.nama}</h6>
+              <div class="mt-3">
               </div>
             </div>
           </div>`;
