@@ -731,7 +731,7 @@
 <!-- Script Testimoni -->
 const sheetURL = 'https://script.google.com/macros/s/AKfycbzwF2dXH57pP3GlQt9qi-HXhH3L6kdaPB-oavm4AvJ7qoktSRKgzV0K9SGtsU36ljOI/exec'; // Ganti link di sini
 
-document.getElementById("formTesti").addEventListener("submit", function(e) {
+  document.getElementById("formTesti").addEventListener("submit", function(e) {
   e.preventDefault();
   const nama = document.getElementById("nama").value.trim();
   const pesan = document.getElementById("pesan").value.trim();
@@ -739,7 +739,7 @@ document.getElementById("formTesti").addEventListener("submit", function(e) {
 
   fetch(sheetURL, {
     method: "POST",
-    body: new URLSearchParams({ nama, pesan })
+    body: new URLSearchParams({ action: "add", nama, pesan })
   })
   .then(() => {
     alert("Testimoni berhasil dikirim!");
@@ -774,8 +774,11 @@ function ambilTestimoni() {
 
 function hapusTestimoni(id) {
   if (confirm("Yakin ingin menghapus testimoni ini?")) {
-    fetch(`${sheetURL}?id=${id}`, { method: "DELETE" })
-      .then(() => ambilTestimoni());
+    fetch(sheetURL, {
+      method: "POST",
+      body: new URLSearchParams({ action: "delete", id })
+    })
+    .then(() => ambilTestimoni());
   }
 }
 
@@ -784,13 +787,18 @@ function editTestimoni(id, oldNama, oldPesan) {
   const pesanBaru = prompt("Edit pesan:", oldPesan);
   if (!namaBaru || !pesanBaru) return;
 
-  fetch(`${sheetURL}?id=${id}&nama=${encodeURIComponent(namaBaru)}&pesan=${encodeURIComponent(pesanBaru)}`, {
-    method: "PUT"
+  fetch(sheetURL, {
+    method: "POST",
+    body: new URLSearchParams({
+      action: "edit",
+      id,
+      nama: namaBaru,
+      pesan: pesanBaru
+    })
   })
   .then(() => ambilTestimoni());
 }
 
-// Load data awal
 ambilTestimoni();
 </script>
 
