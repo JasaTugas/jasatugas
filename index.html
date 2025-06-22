@@ -296,20 +296,19 @@
   
 <!-- Testimoni -->
 <div class="container my-5">
-  <h2 class="text-center mb-4">Ὂc Testimoni Klien</h2>
+  <h2 class="text-center mb-4">💬 Testimoni Klien</h2>
 
-  <!-- Form Testimoni -->
+  <!-- Form -->
   <form id="formTesti" class="mb-4 mx-auto" style="max-width: 600px;">
-    <input type="hidden" id="id">
+    <input type="hidden" id="idEdit">
     <input type="text" id="nama" class="form-control mb-2" placeholder="Nama Anda" required>
-    <textarea id="pesan" class="form-control mb-2" placeholder="Tulis pesan testimoni..." required></textarea>
+    <textarea id="pesan" class="form-control mb-2" placeholder="Tulis testimoni..." required></textarea>
     <button type="submit" class="btn btn-primary w-100">Kirim Testimoni</button>
   </form>
 
   <!-- Daftar Testimoni -->
   <div id="daftarTestimoni"></div>
 </div>
-
 <!-- Blog -->
 <section id="blog" class="container mt-5">
   <h3 class="section-title text-center">Blog Edukasi</h3>
@@ -732,63 +731,69 @@
 <!-- Script Testimoni -->
 const sheetURL = 'https://script.google.com/macros/s/AKfycbwCjhgYYXxK1_S0iAExoomgJ7AY8lAgKiNZmgfH0zwcMC6eTt4ix9ZIvgWXiJgqxvDs/exec';
 
-// Ambil dan tampilkan
+document.getElementById("formTesti").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const id = document.getElementById("idEdit").value;
+  const nama = document.getElementById("nama").value.trim();
+  const pesan = document.getElementById("pesan").value.trim();
+  if (!nama || !pesan) return;
+
+  const formData = new URLSearchParams({
+    action: id ? "edit" : "add",
+    id,
+    nama,
+    pesan
+  });
+
+  fetch(sheetURL, {
+    method: "POST",
+    body: formData
+  }).then(() => {
+    alert(id ? "Testimoni diperbarui!" : "Testimoni dikirim!");
+    this.reset();
+    document.getElementById("idEdit").value = "";
+    ambilTestimoni();
+  });
+});
+
 function ambilTestimoni() {
   fetch(sheetURL)
     .then(res => res.json())
     .then(data => {
       let html = "";
       data.reverse().forEach(t => {
+        const namaSafe = t.nama.replace(/'/g, "\\'");
+        const pesanSafe = t.pesan.replace(/'/g, "\\'");
         html += `
-        <div class="card mb-3 shadow-sm">
-          <div class="card-body">
-            <p>"${t.pesan}"</p>
-            <h6 class="text-end text-muted">– ${t.nama}</h6>
-            <div class="text-end mt-2">
-              <button class="btn btn-sm btn-warning me-2" onclick="isiEdit('${t.id}', '${t.nama}', '${t.pesan}')">Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="hapusTestimoni('${t.id}')">Hapus</button>
+          <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+              <p>"${t.pesan}"</p>
+              <h6 class="text-end text-muted">– ${t.nama}</h6>
+              <div class="text-end mt-2">
+                <button class="btn btn-sm btn-warning me-2" onclick="editTestimoni('${t.id}', '${namaSafe}', '${pesanSafe}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusTestimoni('${t.id}')">Hapus</button>
+              </div>
             </div>
-          </div>
-        </div>`;
+          </div>`;
       });
       document.getElementById("daftarTestimoni").innerHTML = html;
     });
 }
 
-// Tambah/Edit Testimoni
-formTesti.addEventListener("submit", function(e) {
-  e.preventDefault();
-  const id = document.getElementById("id").value;
-  const nama = document.getElementById("nama").value.trim();
-  const pesan = document.getElementById("pesan").value.trim();
-  if (!nama || !pesan) return;
-
-  const action = id ? "edit" : "add";
-  const body = new URLSearchParams({ action, nama, pesan });
-  if (id) body.append("id", id);
-
-  fetch(sheetURL, { method: "POST", body })
-    .then(() => {
-      alert(`Testimoni berhasil di${action === "edit" ? "ubah" : "tambah"}!`);
-      this.reset();
-      ambilTestimoni();
-    });
-});
-
-function isiEdit(id, nama, pesan) {
-  document.getElementById("id").value = id;
-  document.getElementById("nama").value = nama;
-  document.getElementById("pesan").value = pesan;
-  window.scrollTo(0, 0);
-}
-
 function hapusTestimoni(id) {
-  if (confirm("Yakin ingin menghapus testimoni ini?")) {
+  if (confirm("Hapus testimoni ini?")) {
     fetch(sheetURL, {
       method: "POST",
       body: new URLSearchParams({ action: "delete", id })
     }).then(() => ambilTestimoni());
   }
+}
+
+function editTestimoni(id, nama, pesan) {
+  document.getElementById("idEdit").value = id;
+  document.getElementById("nama").value = nama;
+  document.getElementById("pesan").value = pesan;
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 ambilTestimoni();
