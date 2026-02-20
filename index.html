@@ -551,8 +551,8 @@
   <h3 class="section-title text-center">Formulir Pemesanan Tugas</h3>
   <form id="orderForm" novalidate>
     <div class="mb-3">
-      <label for="nama" class="form-label">Nama Lengkap</label>
-      <input type="text" id="nama" class="form-control" required />
+      <label for="nama-pesanan" class="form-label">Nama Lengkap</label>
+      <input type="text" id="nama-pesanan" class="form-control" required />
       <div class="invalid-feedback">Nama harus diisi.</div>
     </div>
     <div class="mb-3">
@@ -665,7 +665,7 @@
       return;
     }
 
-    const nama = document.getElementById("nama").value.trim();
+    const nama = document.getElementById("nama-pesanan").value.trim();
     const email = document.getElementById("email").value.trim();
     const jenisTugas = document.getElementById("jenis-tugas").value;
     const detailTugas = document.getElementById("detail-tugas").value.trim();
@@ -690,7 +690,7 @@
   const waNumber = "62895359790341"; // Ganti dengan nomor WA kamu
 
   const waMessage = `Halo Admin Jasa Tugas!%0A*Pesanan Baru:*%0A` +
-    `Nama: ${encodeURIComponent(nama)}%0A` +
+    `Nama: ${encodeURIComponent(nama-pesanan)}%0A` +
     `Email: ${encodeURIComponent(email)}%0A` +
     `Jenis Tugas: ${encodeURIComponent(jenisTugas)}%0A` +
     `Detail Tugas: ${encodeURIComponent(detailTugas)}%0A` +
